@@ -1,56 +1,106 @@
-import React from 'react';
+'use client'
+import '../app/globals.css';
+import Logo from "./assets/logo.png"
+import { useState } from 'react'
+import { Dialog } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 
-import { Button } from './Button';
-import './header.css';
+export const navigator = [
+  { name: 'Trang chủ', href: '/' },
+  { name: 'Dịch vụ', href: '/#services' },
+  { name: 'Công nghệ', href: '/#techstack' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'CarpTech', href: '/#about' },
+]
 
-type User = {
-  name: string;
-};
+export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-interface HeaderProps {
-  user?: User;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+  return (
+    <header className="bg-white">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <div className="flex items-center gap-x-12">
+          <a href="/" className="-m-1.5 p-1.5">
+            <span className="sr-only">Your Company</span>
+            <Image className="h-12 w-auto"
+              src={Logo}
+              alt="CARPTECH CORPORATION logo"
+              width={224}
+              height={53}
+            />
+          </a>
+          <div className="hidden lg:flex lg:gap-x-12">
+            {navigator.map((item) => (
+              <a key={item.name} href={item.href} className="text-base font-semibold leading-6 text-gray-900">
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+        <div className="hidden lg:flex">
+          <a href="#subcribe" className="text-base font-semibold leading-6 text-gray-900">
+            Nhận tin CarpTech <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </nav>
+      <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+        <div className="fixed inset-0 z-10" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            <a href="#" className="-m-1.5 p-1.5">
+              <span className="sr-only">The Company</span>
+              <Image className="h-12 w-auto"
+                src="/logo.png"
+                alt="CARPTECH CORPORATION logo"
+                width={224}
+                height={53}
+              />
+            </a>
+            <button
+              type="button"
+              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span className="sr-only">Close menu</span>
+              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+              <div className="space-y-2 py-6">
+                {navigator.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+              <div className="py-6">
+                <a
+                  href="#subcribe"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Nhận tin CarpTech
+                </a>
+              </div>
+            </div>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
+    </header>
+  )
 }
-
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
-  <header>
-    <div className="storybook-header">
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fillRule="evenodd">
-            <path
-              d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
-              fill="#FFF"
-            />
-            <path
-              d="M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z"
-              fill="#555AB9"
-            />
-            <path
-              d="M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z"
-              fill="#91BAF8"
-            />
-          </g>
-        </svg>
-        <h1>Acme</h1>
-      </div>
-      <div>
-        {user ? (
-          <>
-            <span className="welcome">
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
-          </>
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
-      </div>
-    </div>
-  </header>
-);
