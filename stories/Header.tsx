@@ -61,7 +61,7 @@ export function Header() {
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">The Company</span>
               <Image className="h-12 w-auto"
-                src="/logo.png"
+                src={Logo}
                 alt="CARPTECH CORPORATION logo"
                 width={224}
                 height={53}

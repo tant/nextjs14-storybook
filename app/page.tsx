@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main className="">
       <h1>
-        Đây là header thôi
+        Đây là h1 thôi
       </h1>
       <p>
         Đây là một cái đoạn văn được nhét vào tag p
